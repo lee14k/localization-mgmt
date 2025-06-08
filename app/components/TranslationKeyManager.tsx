@@ -132,7 +132,12 @@ export default function TranslationKeyManager() {
                 <div className="mt-3">
                   {hasTranslations ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                      {Object.entries(item.translations).map(([locale, translation]) => {
+                      {Object.entries(item.translations)
+                        .filter(([locale]) => {
+                          // If a locale is selected in filters, only show that locale
+                          return !searchFilters.locale || locale === searchFilters.locale;
+                        })
+                        .map(([locale, translation]) => {
                         const isCurrentlyEditing = isEditing(item.id, locale);
                         
                         return (
